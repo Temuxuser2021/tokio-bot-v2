@@ -1,5 +1,5 @@
 {
-  "name": "wabot-aq",
+  "name": "tokio-bot-olduser",
   "version": "2.5.1",
   "description": "Customizable WhatsApp Bot",
   "depecrated": false,
@@ -23,16 +23,16 @@
     "whatsapp",
     "js-whatsapp"
   ],
-  "homepage": "https://github.com/Nurutomo/wabot-aq",
+  "homepage": "https://github.com/Jetushack3/tokio-bot-olduser",
   "author": {
-    "name": "Nurutomo"
+    "name": "OLDUSER"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Nurutomo/wabot-aq.git"
+    "url": "git+https://github.com/Jetushack3/tokio-bot-olduser.git"
   },
   "bugs": {
-    "url": "https://github.com/Nurutomo/wabot-aq/issues"
+    "url": "https://github.com/Jetushack3/tokio-bot-olduser/issues"
   },
   "license": "GPL-3.0-or-later",
   "dependencies": {

