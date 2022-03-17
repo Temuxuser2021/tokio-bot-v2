@@ -116,6 +116,7 @@ module.exports = {
       let isOwner = isROwner || m.fromMe
       let isMods = isOwner || global.mods.map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').includes(m.sender)
       let isPrems = isROwner || global.prems.map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').includes(m.sender)
+      let isPrems2 = isROwner || global.prems2.map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').includes(m.sender)
       let groupMetadata = m.isGroup ? this.chats.get(m.chat).metadata || await this.groupMetadata(m.chat) : {} || {}
       let participants = m.isGroup ? groupMetadata.participants : [] || []
       let user = m.isGroup ? participants.find(u => u.jid == m.sender) : {} // User Data
@@ -154,6 +155,7 @@ module.exports = {
           isAdmin,
           isBotAdmin,
           isPrems,
+          isPrems2,
           chatUpdate,
         })) continue
         if (typeof plugin !== 'function') continue
@@ -204,6 +206,10 @@ module.exports = {
             fail('premium', m, this)
             continue
           }
+          if (plugin.premium2 && !isPrems2) { // Premium2
+            fail('premium2', m, this)
+            continue
+          }
           if (plugin.group && !m.isGroup) { // Group Only
             fail('group', m, this)
             continue
@@ -231,6 +237,10 @@ module.exports = {
             this.reply(m.chat, `Your limit is up, please buy via *${usedPrefix}buy*`, m)
             continue // Limit run out
           }
+            if (!isPrems2 && plugin.limit && global.db.data.users[m.sender].limit < plugin.limit * 1) {
+            this.reply(m.chat, `CONTACT TO OWNER*${usedPrefix}owner*`, m)
+            continue // Limit run out
+          }
           if (plugin.level > _user.level) {
             this.reply(m.chat, `level required ${plugin.level} to use this command. Your level ${_user.level}`, m)
             continue // If the level has not been reached
@@ -253,11 +263,37 @@ module.exports = {
             isAdmin,
             isBotAdmin,
             isPrems,
+            isPrems2,
             chatUpdate,
           }
           try {
             await plugin.call(this, m, extra)
             if (!isPrems) m.limit = m.limit || plugin.limit || false
+          } catch (e) {
+            // Error occured
+            m.error = e
+            console.error(e)
+            if (e) {
+              let text = util.format(e.message ? e.message : e)
+              for (let key of Object.values(global.APIKeys))
+                text = text.replace(new RegExp(key, 'g'), '#HIDDEN#')
+              m.reply(text)
+            }
+          } finally {
+            // m.reply(util.format(_user))
+            if (typeof plugin.after === 'function') {
+              try {
+                await plugin.after.call(this, m, extra)
+              } catch (e) {
+                console.error(e)
+              }
+            }
+            if (m.limit) m.reply(+ m.limit + ' Limit used')
+          }
+          break
+          try {
+            await plugin.call(this, m, extra)
+            if (!isPrems2) m.limit = m.limit || plugin.limit || false
           } catch (e) {
             // Error occured
             m.error = e
@@ -399,7 +435,7 @@ global.dfail = (type, m, conn) => {
     owner: 'This command can only be used by *Bot Owner* !',
     mods: 'This command can only be used by *Moderator* !',
     premium2: 'This command is only for *Premium Members* !',
-    premium: '~_"Please Add Bot Owner First is *_~ !',
+    premium: '~_*Please Add Bot Owner First is *_~ !',
     group: 'This command can only be used in groups !',
     private: 'This command can only be used in Private Chat !',
     admin: 'This command is only for *Group Admin* !',
