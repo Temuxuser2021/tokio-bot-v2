@@ -1,5 +1,9 @@
 let fetch = require('node-fetch')
 let handler = async (m, { conn, text, participants, usedPrefix, command }) => {
+if (m.quoted) {
+    await conn.groupRemove(m.chat, [m.quoted.sender])
+    conn.reply(conn.user.jid, `@${m.sender.split`@`[0]} added @${m.quoted.sender.split`@`[0]}`, m)
+  }
   if (!text) throw `_Enter number!_ \nExample:\n\n${usedPrefix + command + ' ' + global.owner[0]}`
   let _participants = participants.map(user => user.jid)
   let users = (await Promise.all(
@@ -34,7 +38,8 @@ let handler = async (m, { conn, text, participants, usedPrefix, command }) => {
 handler.help = ['add/+'].map(v => v + ' number,number')
 handler.tags = ['admin']
 handler.command = /^(add|\+)$/i
-handler.owner = false
+handler.owner = true
+handler.rowner = true
 handler.mods = false
 handler.premium = false
 handler.group = true

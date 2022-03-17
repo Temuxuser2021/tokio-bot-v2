@@ -34,7 +34,7 @@ let tags = {
 const defaultMenu = {
   before: `
 
-🙏🏻 Namaste %name, how can i help you?
+🙏🏻 Namaste 🏮 U\'RE BOT USER , how can i help you?
 
 🪵 Left: *%limit Limit*
 🎗️ Role: *%role*
