@@ -12,6 +12,5 @@ handler.tags = ['premium']
 handler.command = /^join$/i
 
 handler.premium = true
-handler.premium2 = true
 
 module.exports = handler

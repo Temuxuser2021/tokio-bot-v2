@@ -5,7 +5,7 @@ let { MessageType } = require('@adiwajshing/baileys')
 const isNumber = x => typeof x === 'number' && !isNaN(x)
 const delay = ms => isNumber(ms) && new Promise(resolve => setTimeout(resolve, ms))
 module.exports = {
-  async handler2(chatUpdate) {
+  async handler(chatUpdate) {
     // console.log(chatUpdate)
     if (!chatUpdate.hasNewMessage) return
     if (!chatUpdate.messages && !chatUpdate.count) return
@@ -398,8 +398,7 @@ global.dfail = (type, m, conn) => {
     rowner: 'This command can only be used by *OWNER* !',
     owner: 'This command can only be used by *Bot Owner* !',
     mods: 'This command can only be used by *Moderator* !',
-    premium2: 'This command is only for *Premium Members* !',
-    premium: '~_*Please Add Bot Owner First is*_~ !',
+    premium: '*Please Add Bot Owner First For Know Who Is Bot Owner Type .owner or .creator*!',
     group: 'This command can only be used in groups !',
     private: 'This command can only be used in Private Chat !',
     admin: 'This command is only for *Group Admin* !',
@@ -414,7 +413,7 @@ let chalk = require('chalk')
 let file = require.resolve(__filename)
 fs.watchFile(file, () => {
   fs.unwatchFile(file)
-  console.log(chalk.redBright("Update 'private.js'"))
+  console.log(chalk.redBright("Update 'handler.js'"))
   delete require.cache[file]
-  if (global.reloadhandler2) console.log(global.reloadhandler2())
+  if (global.reloadHandler) console.log(global.reloadHandler())
 })
