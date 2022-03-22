@@ -21,7 +21,7 @@ apt install yarn -y
 apt install ffmpeg -y
 apt install imagemagick -y
 git clone https://github.com/Temuxuser2021/tokio-bot-v2
-cd popat
+cd tokio-bot-v2 
 rm -rf session.json
 rm -rf session.data.json
 yarn start
@@ -57,7 +57,7 @@ ubuntu
 curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -
 apt install -y nodejs gcc g++ make
 https://github.com/Temuxuser2021/tokio-bot-v2
-cd popat
+cd tokio-bot-v2
 yarn install
 yarn upgrade
 ```
@@ -73,7 +73,7 @@ yarn upgrade
 
 ```bash
 https://github.com/Temuxuser2021/tokio-bot-v2
-cd popat
+cd 1tokio-bot-v2
 npm install --global yarn
 npm install -g yarn
 choco install yarn
